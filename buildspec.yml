@@ -3,23 +3,20 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing dependencies (if any)..."
-      # Add commands like npm install or pip install here if needed
+      - echo "Install dependencies if any"
   pre_build:
     commands:
       - echo "Pre-build steps..."
-      # Optional: lint, tests, etc.
   build:
     commands:
-      - echo "Building project..."
+      - echo "Copying project files..."
       - mkdir -p build
-      - cp -r * build/       # Copy all files to build folder
+      - cp -r . build/   # copy everything including hidden files
   post_build:
     commands:
-      - echo "Post-build steps completed."
+      - echo "Build complete"
 
 artifacts:
   files:
-    - '**/*'                # Include all files in the build folder
-  base-directory: build     # The folder containing your build outputs
-  discard-paths: no         # Keep folder structure intact
+    - '**/*'            # Include everything
+  discard-paths: no      # Keep folder structure
