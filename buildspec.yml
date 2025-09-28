@@ -3,16 +3,16 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing dependencies if any..."
-      # Add commands if your app needs npm, pip, etc.
-      # Example for Node.js: npm install
+      - echo "Installing dependencies if needed"
+      # For Node.js apps: npm install
+      # For Python apps: pip install -r requirements.txt
   build:
     commands:
-      - echo "Building the project..."
+      - echo "Building project..."
       - mkdir -p output
-      - cp -r * output/    # Copy all files to output folder
+      - cp -r * output/   # Copy all your app files to output folder
 
 artifacts:
   files:
-    - '**/*'             # Include all files recursively
-  base-directory: output  # Use the output folder as root of artifact
+    - '**/*'
+  base-directory: output
