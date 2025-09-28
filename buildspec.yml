@@ -3,16 +3,23 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing dependencies if needed"
-      # For Node.js apps: npm install
-      # For Python apps: pip install -r requirements.txt
+      - echo "Installing dependencies (if any)..."
+      # Add commands like npm install or pip install here if needed
+  pre_build:
+    commands:
+      - echo "Pre-build steps..."
+      # Optional: lint, tests, etc.
   build:
     commands:
       - echo "Building project..."
-      - mkdir -p output
-      - cp -r * output/   # Copy all your app files to output folder
+      - mkdir -p build
+      - cp -r * build/       # Copy all files to build folder
+  post_build:
+    commands:
+      - echo "Post-build steps completed."
 
 artifacts:
   files:
-    - '**/*'
-  base-directory: output
+    - '**/*'                # Include all files in the build folder
+  base-directory: build     # The folder containing your build outputs
+  discard-paths: no         # Keep folder structure intact
