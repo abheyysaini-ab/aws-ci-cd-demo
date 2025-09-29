@@ -2,21 +2,37 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 14  # Or any runtime you need
     commands:
-      - echo "Install dependencies if any"
+      - echo "Installing dependencies..."
+      - npm install
+
   pre_build:
     commands:
       - echo "Pre-build steps..."
+
   build:
     commands:
-      - echo "Copying project files..."
+      - echo "Building project..."
+      - npm run build
+      - echo "Preparing build folder..."
       - mkdir -p build
-      - cp -r . build/   # copy everything including hidden files
+      - cp -r $(ls -A | grep -v build) build/
+
   post_build:
     commands:
-      - echo "Build complete"
+      - echo "Zipping artifacts..."
+      - cd build && zip -r ../output.zip . && cd ..
+      - echo "Deploying to EC2 via SSM..."
+      - aws ssm send-command \
+          --document-name "AWS-RunShellScript" \
+          --instance-ids "i-0abcdef1234567890" \
+          --comment "Deploy build" \
+          --parameters 'commands=["mkdir -p /home/ec2-user/app", "unzip -o /tmp/output.zip -d /home/ec2-user/app"]' \
+          --region us-east-1
 
 artifacts:
   files:
-    - '**/*'            # Include everything
-  discard-paths: no      # Keep folder structure
+    - output.zip
+  discard-paths: yes
