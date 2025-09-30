@@ -23,3 +23,5 @@ artifacts:
   files:
     - output.zip
   discard-paths: no
+  name: output.zip
+
