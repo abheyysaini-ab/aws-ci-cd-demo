@@ -2,35 +2,21 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      nodejs: 14  # Or any runtime you need
     commands:
-      - echo "Installing dependencies..."
-      - npm install
-
-  pre_build:
-    commands:
-      - echo "Pre-build steps..."
+      - echo "Installing dependencies... nothing to install"
 
   build:
     commands:
-      - echo "Building project..."
-      - npm run build
-      - echo "Preparing build folder..."
+      - echo "Building the project..."
       - mkdir -p build
-      - cp -r $(ls -A | grep -v build) build/
+      - echo "Hello from CodeBuild" > build/index.html
 
   post_build:
     commands:
-      - echo "Zipping artifacts..."
+      - echo "Zipping the build folder..."
       - cd build && zip -r ../output.zip . && cd ..
-      - echo "Deploying to EC2 via SSM..."
-      - aws ssm send-command \
-          --document-name "AWS-RunShellScript" \
-          --instance-ids "i-0abcdef1234567890" \
-          --comment "Deploy build" \
-          --parameters 'commands=["mkdir -p /home/ec2-user/app", "unzip -o /tmp/output.zip -d /home/ec2-user/app"]' \
-          --region us-east-1
+      - echo "Verifying zip file exists..."
+      - ls -lh output.zip
 
 artifacts:
   files:
