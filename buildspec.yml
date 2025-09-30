@@ -22,6 +22,6 @@ phases:
 artifacts:
   files:
     - output.zip
-  discard-paths: no
+  base-directory: .
   name: output.zip
-
+  discard-paths: no
