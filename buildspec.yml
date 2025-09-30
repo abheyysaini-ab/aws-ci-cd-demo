@@ -3,7 +3,8 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing dependencies... nothing to install"
+      - echo "Installing dependencies..."
+      - yum install -y zip
 
   build:
     commands:
