@@ -22,4 +22,4 @@ phases:
 artifacts:
   files:
     - output.zip
-  discard-paths: yes
+  discard-paths: no
