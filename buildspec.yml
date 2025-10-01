@@ -3,26 +3,20 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: 3.11
+      nodejs: 18
     commands:
       - echo "Installing dependencies..."
-      - yum install -y zip
-
-  pre_build:
-    commands:
-      - echo "Running pre-build phase..."
+      - npm install
 
   build:
     commands:
-      - echo "Creating sample build output..."
-      - mkdir -p build
-      - echo "Hello from CodeBuild!" > build/index.html
+      - echo "Building the app..."
+      - npm run build
 
   post_build:
     commands:
-      - echo "Zipping the build folder..."
+      - echo "Zipping build directory..."
       - zip -r output.zip build/
-      - echo "Uploading to S3..."
       - aws s3 cp output.zip s3://codepipeline-us-east-1-914035cea9d7-4ba5-a21c-f1c50f914996/output/output.zip --sse aws:kms
 
 artifacts:
