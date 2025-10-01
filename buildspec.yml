@@ -11,9 +11,9 @@ phases:
   pre_build:
     commands:
       - echo "Running pre-build phase (optional)..."
-
+      
  build:
-  commands:
+   commands:
     - echo "Installing project dependencies..."
     - npm install
     - echo "Building project..."
