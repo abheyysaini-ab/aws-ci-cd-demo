@@ -2,9 +2,15 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      python: 3.11
     commands:
       - echo "Installing dependencies..."
       - yum install -y zip
+
+  pre_build:
+    commands:
+      - echo "Running pre-build phase (optional)..."
 
   build:
     commands:
@@ -13,15 +19,14 @@ phases:
       - echo "Hello from CodeBuild" > build/index.html
 
   post_build:
-  commands:
-    - echo "Zipping the build folder..."
-    - cd build && zip -r ../output.zip . && cd ..
-    - echo "Verifying zip file exists..."
-    - ls -lh output.zip
-    - echo "Uploading output.zip to S3 with correct name..."
-    - aws s3 cp output.zip s3://codepipeline-us-east-1-914035cea9d7-4ba5-a21c-f1c50f914996/output/output.zip --sse aws:kms
+    commands:
+      - echo "Zipping the build folder..."
+      - cd build && zip -r ../output.zip . && cd ..
+      - echo "Verifying zip file exists..."
+      - ls -lh output.zip
+      - echo "Uploading output.zip to S3 with SSE KMS encryption..."
+      - aws s3 cp output.zip s3://codepipeline-us-east-1-914035cea9d7-4ba5-a21c-f1c50f914996/output/output.zip --sse aws:kms
 
 artifacts:
   files:
     - output.zip
-  discard-paths: yes
