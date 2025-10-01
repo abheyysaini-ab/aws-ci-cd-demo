@@ -10,20 +10,20 @@ phases:
 
   pre_build:
     commands:
-      - echo "Running pre-build phase (optional)..."
-      
-  build:
-   commands:
-    - echo "Installing project dependencies..."
-    - npm install
-    - echo "Building project..."
-    - npm run build
+      - echo "Running pre-build phase..."
 
-post_build:
-  commands:
-    - echo "Zipping the build folder..."
-    - zip -r output.zip build/
-    - aws s3 cp output.zip s3://codepipeline-us-east-1-914035cea9d7-4ba5-a21c-f1c50f914996/output/output.zip --sse aws:kms
+  build:
+    commands:
+      - echo "Creating sample build output..."
+      - mkdir -p build
+      - echo "Hello from CodeBuild!" > build/index.html
+
+  post_build:
+    commands:
+      - echo "Zipping the build folder..."
+      - zip -r output.zip build/
+      - echo "Uploading to S3..."
+      - aws s3 cp output.zip s3://codepipeline-us-east-1-914035cea9d7-4ba5-a21c-f1c50f914996/output/output.zip --sse aws:kms
 
 artifacts:
   files:
