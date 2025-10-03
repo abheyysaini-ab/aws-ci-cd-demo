@@ -1,1 +1,1 @@
-# Trigger deployment at <timestamp>
+# Trigger one deployment at <timestamp>
